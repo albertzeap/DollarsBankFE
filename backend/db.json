@@ -13,13 +13,6 @@
       "last_name": "Ross",
       "username": "bobRoss",
       "password": "password"
-    },
-    {
-      "id": 3,
-      "first_name": "Cal ",
-      "last_name": "Kestis",
-      "username": "jedi",
-      "password": "password"
     }
   ]
 }

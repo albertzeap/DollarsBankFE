@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
 </head>
 <body>
 
@@ -18,16 +18,22 @@
     <h1>Login</h1>
 
     <!-- Register Form -->
-    <form action="../api/login.js">
+    <form name="logForm" onsubmit=prevent(event)>
 
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br/>
+        <input type="text" id="username" name="username" required><br/>
 
         <label for="password">Password: </label>
-        <input type="password" id="password" name="password"><br/>
+        <input type="password" id="password" name="password" required><br/>
 
-        <input type="submit" value="submit">
+        <input type="submit" value="Login">
 
     </form>
 </body>
+<script>
+    function prevent(e){
+        e.preventDefault();
+    }
+</script>
+<script src="../api/user.js"></script>
 </html>

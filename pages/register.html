@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <script src="../api/user.js" defer></script> 
+    <title>Register</title> 
 </head>
 <body>
     
@@ -20,7 +19,7 @@
     <h1>Register</h1>
     
     <!-- Register Form -->
-    <form name="regform" method="post">
+    <form name="regform" method="post" onsubmit=prevent(event)>
         
         <label for="fname">First Name:</label>
         <input type="text" id="fname" name="fname" placeholder="John"><br/>
@@ -37,4 +36,10 @@
         <input type="submit" value="Create Account">
     </form>
 </body>
+<script>
+    function prevent(e){
+        e.preventDefault();
+    }
+</script>
+<script src="../api/user.js"></script>
 </html>
