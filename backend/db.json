@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "first_name": "Albert",
+      "last_name": "Paez",
+      "username": "albertzeap",
+      "password": "password"
+    },
+    {
+      "id": 2,
+      "first_name": "Bob",
+      "last_name": "Ross",
+      "username": "bobRoss",
+      "password": "password"
+    },
+    {
+      "id": 3,
+      "first_name": "Cal ",
+      "last_name": "Kestis",
+      "username": "jedi",
+      "password": "password"
+    }
+  ]
+}
