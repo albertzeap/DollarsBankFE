@@ -1,4 +1,8 @@
 let userList = [];
+let validUser = {};
+let activeUser = {};
+let isActive = false;
+
 const URI = "http://localhost:3000/users"
 
 const UserApi = {
@@ -6,8 +10,8 @@ const UserApi = {
     getUsers: () => {
         fetch(URI)
         .then((result) => {
-            console.log("RESULT");
-            console.log(result);
+            // console.log("RESULT");
+            // console.log(result);
             
             return result.json();
         })
@@ -16,6 +20,24 @@ const UserApi = {
             console.log(data);
             
             userList = data;             
+        })
+        .catch((error)=>{console.log(error)});
+    },
+
+    getUserByUsernamePassword: (username, password) => {
+        fetch(URI + "?username=" + username + "&password=" + password )
+        .then((result) => {
+            // console.log("RESULT");
+            // console.log(result);
+            
+            return result.json();
+        })
+        .then((data) =>{
+            console.log("DATA: ");
+            console.log(data);
+
+            validUser = data;
+                       
         })
         .catch((error)=>{console.log(error)});
     },
@@ -30,7 +52,12 @@ const UserApi = {
                 first_name: fn,
                 last_name : ln,
                 username: username,
-                password: password
+                password: password,
+                banks: [
+                    {
+
+                    }
+                ]
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -44,7 +71,6 @@ const UserApi = {
         });
     }
 }
-UserApi.getUsers();
 
 // Registration Form 
 var regform = document.forms["regform"];
@@ -66,7 +92,6 @@ if(regform != undefined){
 
 // Login Form 
 var logForm = document.forms["logForm"];
-let activeUser = {};
 if(logForm != undefined){
     
     logForm.onsubmit = (e) => {
@@ -74,16 +99,50 @@ if(logForm != undefined){
         
         let username = document.forms["logForm"]["username"].value;
         let password = document.forms["logForm"]["password"].value;
-        
-        userList.forEach(user => {
-            if(user.username == username && user.password == password){
-                activeUser = user;
-                console.log(activeUser.id + " " + activeUser.first_name)
+
+        UserApi.getUserByUsernamePassword(username, password, validUser);
+
+        // Check for valid login 
+        setTimeout(function() {
+            if(validUser != undefined){
+                isActive = true;
+                sessionStorage.setItem("isActive", isActive);
+                sessionStorage.setItem("activeUser", JSON.stringify(validUser));
+                window.location.assign("../pages/dashboard.html");
+                alert("Login Successfully");
             }
             
-        })
+            
+            // Invalid login handling
+            else{
+                alert("Invalid Login");
+                logForm.reset();
+            }
+        },1000);
     }
 }
+
+// If the user is logged in
+if(sessionStorage.getItem("isActive") == "true"){
+
+    // Load bank information
+    activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
+
+    document.getElementById("bankName") != undefined ? 
+        document.getElementById("bankName").innerText = activeUser[0].banks[0].bank : document.getElementById("bankName").innerText = "No banks";
+    document.getElementById("checkings") != undefined ? 
+        document.getElementById("checkings").innerText = "$" + activeUser[0].banks[0].checkings : null;
+    document.getElementById("savings") != undefined ? 
+        document.getElementById("savings").innerText = "$" + activeUser[0].banks[0].savings : null;
+
+    // Deposit
+
+
+    // Withdraw
+
+
+}
+
 
 
 

@@ -10,15 +10,15 @@
 
     <!-- Navbar -->
     <nav>
-        <a href="./index.html">Home</a>
-        <a href="./register.html">Register</a>
-        <a href="./login.html">Login</a>
+        <a href="../index.html">Home</a>
+        <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
     </nav>
 
     <h1>Login</h1>
 
-    <!-- Register Form -->
-    <form name="logForm" onsubmit=prevent(event)>
+    <!-- Login Form -->
+    <form name="logForm" onsubmit="'../api/user.js'">
 
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br/>
@@ -30,10 +30,5 @@
 
     </form>
 </body>
-<script>
-    function prevent(e){
-        e.preventDefault();
-    }
-</script>
 <script src="../api/user.js"></script>
 </html>

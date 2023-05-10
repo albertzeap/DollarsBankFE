@@ -5,14 +5,29 @@
       "first_name": "Albert",
       "last_name": "Paez",
       "username": "albertzeap",
-      "password": "password"
+      "password": "password",
+      "banks": [
+        {
+          "bank": "Wells Fargo",
+          "checkings": 3000,
+          "savings": 50000
+        },
+        {
+          "bank": "Chime",
+          "checkings": 3000,
+          "savings": 50000
+        }
+      ]
     },
     {
       "id": 2,
-      "first_name": "Bob",
-      "last_name": "Ross",
-      "username": "bobRoss",
-      "password": "password"
+      "first_name": "John ",
+      "last_name": "Cena",
+      "username": "johnCena",
+      "password": "password",
+      "banks": [
+        {}
+      ]
     }
   ]
 }
