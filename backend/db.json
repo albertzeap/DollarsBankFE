@@ -9,13 +9,8 @@
       "banks": [
         {
           "bank": "Wells Fargo",
-          "checkings": 3000,
-          "savings": 50000
-        },
-        {
-          "bank": "Chime",
-          "checkings": 3000,
-          "savings": 50000
+          "checkings": "100",
+          "savings": "50000"
         }
       ]
     },

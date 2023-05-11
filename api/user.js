@@ -23,6 +23,22 @@ const UserApi = {
         })
         .catch((error)=>{console.log(error)});
     },
+    getUsersById: (userId) => {
+        fetch(URI + "/" + userId)
+        .then((result) => {
+            // console.log("RESULT");
+            // console.log(result);
+            
+            return result.json();
+        })
+        .then((data) =>{
+            console.log("DATA: ");
+            console.log(data);
+            
+            activeUser = data;             
+        })
+        .catch((error)=>{console.log(error)});
+    },
 
     getUserByUsernamePassword: (username, password) => {
         fetch(URI + "?username=" + username + "&password=" + password )
@@ -69,6 +85,97 @@ const UserApi = {
             
             alert("User account created!" + `\nUsername: ${data.username}`);
         });
+    },
+
+    depositAmount: (userId, accountType, checkingsAmount, savingsAmount) => {
+        if(accountType == "checkings"){
+            fetch(URI + "/" + userId, {
+                method: "PUT",
+                body: JSON.stringify({
+                    banks: [
+                        {
+                            bank: "Wells Fargo",
+                            checkings : checkingsAmount,
+                            savings: savingsAmount
+                        }
+                    ]
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            });
+        }
+        else {
+            fetch(URI + "/" + userId, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    banks: [
+                        {
+                            bank: "Wells Fargo",
+                            savings : amount
+                        }
+                    ]
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            });
+        }
+    }
+}
+
+
+const depositMenu = () => {
+    if(document.getElementById("depositAction").style.display == "none"){
+        document.getElementById("depositAction").style.display = "initial";
+    } 
+    else {
+        document.getElementById("depositAction").style.display = "none";
+    }
+}
+
+const withdrawMenu = () => {
+    if(document.getElementById("withdrawAction").style.display == "none"){
+        document.getElementById("withdrawAction").style.display = "initial";
+    }
+    else {
+        document.getElementById("withdrawAction").style.display = "none";
+    }
+
+}
+// If the user is logged in
+const dashboardMenu = () => {
+    if(sessionStorage.getItem("isActive") == "true"){
+    
+        // Load bank information
+        // activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
+
+        UserApi.getUsersById(sessionStorage.getItem("activeUserId"));
+        
+        setTimeout(() => {
+            console.log(activeUser);
+            document.getElementById("bankName") != undefined ? 
+            document.getElementById("bankName").innerText = activeUser.banks[0].bank : document.getElementById("bankName").innerText = "No banks";
+            document.getElementById("checkings") != undefined ? 
+            document.getElementById("checkings").innerText = "$" + activeUser.banks[0].checkings : null;
+            document.getElementById("savings") != undefined ? 
+            document.getElementById("savings").innerText = "$" + activeUser.banks[0].savings : null;
+            
+            // Deposit
+            document.getElementById("deposit").addEventListener("click", depositMenu);
+            
+            // Withdraw
+            document.getElementById("withdraw").addEventListener("click", withdrawMenu);
+        }, 1000)
+        
     }
 }
 
@@ -114,7 +221,8 @@ if(logForm != undefined){
             if(Object.keys(validUser).length != 0){
                 isActive = true;
                 sessionStorage.setItem("isActive", isActive);
-                sessionStorage.setItem("activeUser", JSON.stringify(validUser));
+                // sessionStorage.setItem("activeUser", JSON.stringify(validUser));
+                sessionStorage.setItem("activeUserId", validUser[0].id);
                 window.location.assign("../pages/dashboard.html");
                 alert("Login Successfully");
             }
@@ -129,45 +237,38 @@ if(logForm != undefined){
     }
 }
 
-const depositMenu = () => {
-    if(document.getElementById("depositAction").style.display == "none"){
-        document.getElementById("depositAction").style.display = "initial";
-    } 
-    else {
-        document.getElementById("depositAction").style.display = "none";
-    }
-}
-
-const withdrawMenu = () => {
-    if(document.getElementById("withdrawAction").style.display == "none"){
-        document.getElementById("withdrawAction").style.display = "initial";
-    }
-    else {
-        document.getElementById("withdrawAction").style.display = "none";
-    }
-
+// Deposit Form 
+var depositForm = document.forms["depositForm"];
+if(depositForm != undefined){
     
-}
-// If the user is logged in
-if(sessionStorage.getItem("isActive") == "true"){
+    depositForm.onsubmit = (e) => {
+        e.preventDefault();
+        let accountType = document.forms["depositForm"]["account"].value;
+        let amount = document.forms["depositForm"]["depositAmount"].value;
+        let checkingsAmount = document
+        console.log(accountType + amount);
 
-    // Load bank information
-    activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
+        UserApi.depositAmount(activeUser.id,accountType, amount);
+        dashboardMenu();
 
-    document.getElementById("bankName") != undefined ? 
-        document.getElementById("bankName").innerText = activeUser[0].banks[0].bank : document.getElementById("bankName").innerText = "No banks";
-    document.getElementById("checkings") != undefined ? 
-        document.getElementById("checkings").innerText = "$" + activeUser[0].banks[0].checkings : null;
-    document.getElementById("savings") != undefined ? 
-        document.getElementById("savings").innerText = "$" + activeUser[0].banks[0].savings : null;
-
-    // Deposit
-    document.getElementById("deposit").addEventListener("click", depositMenu);
-
-    // Withdraw
-    document.getElementById("withdraw").addEventListener("click", withdrawMenu);
+    }
 
 }
 
+// Withdraw Form 
+var withdrawForm = document.forms["withdrawForm"];
+if(withdrawForm != undefined){
+    
+    withdrawForm.onsubmit = (e) => {
+        e.preventDefault();
+        let accountType = document.forms["withdrawForm"]["account"].value;
+        let amount = document.forms["withdrawForm"]["withdrawAmount"].value;
+
+
+    }
+
+}
+
+dashboardMenu();
 
 
