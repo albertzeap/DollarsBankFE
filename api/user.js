@@ -75,7 +75,11 @@ const UserApi = {
 // Registration Form 
 var regform = document.forms["regform"];
 if(regform != undefined){
-    console.log(regform);
+
+    // Clear session storage if not on dashboard page
+    sessionStorage.clear();
+
+
     regform.onsubmit = (e) => {
         e.preventDefault();
         
@@ -93,7 +97,9 @@ if(regform != undefined){
 // Login Form 
 var logForm = document.forms["logForm"];
 if(logForm != undefined){
-    
+
+    sessionStorage.clear();
+
     logForm.onsubmit = (e) => {
         e.preventDefault();
         
@@ -101,10 +107,11 @@ if(logForm != undefined){
         let password = document.forms["logForm"]["password"].value;
 
         UserApi.getUserByUsernamePassword(username, password, validUser);
+        console.log(Object.keys(validUser).length);
 
         // Check for valid login 
         setTimeout(function() {
-            if(validUser != undefined){
+            if(Object.keys(validUser).length != 0){
                 isActive = true;
                 sessionStorage.setItem("isActive", isActive);
                 sessionStorage.setItem("activeUser", JSON.stringify(validUser));
@@ -122,6 +129,25 @@ if(logForm != undefined){
     }
 }
 
+const depositMenu = () => {
+    if(document.getElementById("depositAction").style.display == "none"){
+        document.getElementById("depositAction").style.display = "initial";
+    } 
+    else {
+        document.getElementById("depositAction").style.display = "none";
+    }
+}
+
+const withdrawMenu = () => {
+    if(document.getElementById("withdrawAction").style.display == "none"){
+        document.getElementById("withdrawAction").style.display = "initial";
+    }
+    else {
+        document.getElementById("withdrawAction").style.display = "none";
+    }
+
+    
+}
 // If the user is logged in
 if(sessionStorage.getItem("isActive") == "true"){
 
@@ -136,13 +162,12 @@ if(sessionStorage.getItem("isActive") == "true"){
         document.getElementById("savings").innerText = "$" + activeUser[0].banks[0].savings : null;
 
     // Deposit
-
+    document.getElementById("deposit").addEventListener("click", depositMenu);
 
     // Withdraw
-
+    document.getElementById("withdraw").addEventListener("click", withdrawMenu);
 
 }
-
 
 
 

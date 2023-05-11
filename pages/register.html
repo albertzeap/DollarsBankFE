@@ -13,7 +13,6 @@
         <a href="../index.html">Home</a>
         <a href="register.html">Register</a>
         <a href="login.html">Login</a>
-        <a href="dashboard.html">Dashboard</a>
     </nav>
     
     
@@ -22,18 +21,29 @@
     <!-- Register Form -->
     <form name="regform" method="post" onsubmit=prevent(event)>
         
-        <label for="fname">First Name:</label>
-        <input type="text" id="fname" name="fname" placeholder="John"><br/>
-        
-        <label for="lname">Last Name:</label>
-        <input type="text" id="lname" name="lname" placeholder="Doe"><br/>
-        
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br/>
-        
-        <label for="password">Password: </label>
-        <input type="password" id="password" name="password" required><br/>
-        
+        <fieldset>
+            <legend>Personal Information</legend>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" pattern="[aA-zZ]+" placeholder="John"><br/><br/>
+            
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" pattern="[aA-zZ]+" placeholder="Doe"><br/><br/>
+
+            <label for="phoneNumber">Phone Number: </label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890">
+            
+        </fieldset>
+        <br/>
+        <fieldset>
+            <legend>User Credentials</legend>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br/><br/>
+            
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" required><br/><br/>
+
+        </fieldset>
+        <br/>
         <input type="submit" value="Create Account">
     </form>
 </body>
