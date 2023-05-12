@@ -128,14 +128,14 @@ const AccountApi =  {
         .then((data) => {
             // console.log(data);
             
-            alert("Transaction successful!");
+            // alert("Transaction successful!");
         });
     }
 }
 
 const TransactionApi = {
     getTransactionByUserId: (userId) => {
-        fetch(accountURI + "?userId=" + userId)
+        fetch(transactionURI + "?userId=" + userId)
         .then((result) => {
             // console.log("RESULT");
             // console.log(result);
@@ -149,6 +149,27 @@ const TransactionApi = {
             userTransactions = data;             
         })
         .catch((error)=>{console.log(error)});
+    },
+    createTransaction: (id, userId, action, account, amount) => {
+       // Create the POST request
+       fetch(transactionURI, {
+        method: "POST",
+        body: JSON.stringify({
+            id: id,
+            userId: userId,
+            action : action,
+            account: account,
+            amount: amount,
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        alert("Transaction successful!");
+    });
     }
 }
 
@@ -217,6 +238,7 @@ const formHandler = {
         var depositForm = document.forms["depositForm"];
         depositForm.onsubmit = (e) => {
             e.preventDefault();
+            console.log("USER ID: " + activeUser.id)
             let accountType = document.forms["depositForm"]["account"].value;
             let amount = Number(document.forms["depositForm"]["depositAmount"].value);
             let accountId = 0;
@@ -226,9 +248,19 @@ const formHandler = {
                     account.amount += amount;
                     accountId = account.id;
                     AccountApi.updateAccount(account);
-                    console.log("Found a match! Now " + account.amount + " in accountId " + accountId);
+                    TransactionApi.createTransaction(
+                            userTransactions[userTransactions.length] + 1, 
+                            Number(activeUser.id),
+                            "Deposit",
+                            account.type,
+                            amount
+                        )
+                   
                 }
             });
+
+
+
         }
     },
     handleWithdraw: () => {
@@ -256,6 +288,13 @@ const formHandler = {
                     account.amount -= amount;
                     accountId = account.id;
                     AccountApi.updateAccount(account);
+                    TransactionApi.createTransaction(
+                        userTransactions[userTransactions.length] + 1, 
+                        Number(activeUser.id),
+                        "Withdraw",
+                        account.type,
+                        amount
+                    )
                     console.log("Found a match! Now " + account.amount + " in accountId " + accountId);
                 }
             });
@@ -295,11 +334,25 @@ const formHandler = {
                     account.amount -= amount;
                     accountId = account.id;
                     AccountApi.updateAccount(account);
+                    TransactionApi.createTransaction(
+                        userTransactions[userTransactions.length] + 1, 
+                        Number(activeUser.id),
+                        "Withdraw",
+                        account.type,
+                        amount
+                    )
                 }
                 else if(account.type == toAccount){
                     account.amount += amount;
                     accountId = account.id;
                     AccountApi.updateAccount(account);
+                    TransactionApi.createTransaction(
+                        userTransactions[userTransactions.length] + 2, 
+                        Number(activeUser.id),
+                        "Deposit",
+                        account.type,
+                        amount
+                    )
                 }
             });
         }
@@ -313,6 +366,7 @@ const dashboardMenu = () => {
         // Call the APIs
         UserApi.getUsersById(sessionStorage.getItem("activeUserId"));
         AccountApi.getAccountByUserId(sessionStorage.getItem("activeUserId"));
+        TransactionApi.getTransactionByUserId(sessionStorage.getItem("activeUserId"));
         
         // Allow time for the api to fetch data before displaying data
         setTimeout(() => {
@@ -326,6 +380,28 @@ const dashboardMenu = () => {
                 console.log(document.getElementById(`accountType${i}`).innerText = account.type);
                 i++;
             });
+
+            for(let i = 0; i < userTransactions.length; i++){
+                console.log(userTransactions[userTransactions.length - 1 - i]);
+                let transactions = document.getElementById("transactionHistory");
+
+                let tr = document.createElement("tr");
+
+                let tdAmount = document.createElement("td");
+                tdAmount.innerText = "$" + userTransactions[userTransactions.length - 1 - i].amount;
+                let tdAction = document.createElement("td");
+                tdAction.innerText = userTransactions[userTransactions.length - 1 - i].action;
+                let tdAccount = document.createElement("td");
+                tdAccount.innerText = userTransactions[userTransactions.length - 1 - i].account;
+
+                tr.appendChild(tdAmount);
+                tr.appendChild(tdAction);
+                tr.appendChild(tdAccount);
+
+                transactions.appendChild(tr);
+
+                if(i == 4) break;
+            }
 
             // Track what the user wants to do
             let transactionForm = document.forms["transaction"]
