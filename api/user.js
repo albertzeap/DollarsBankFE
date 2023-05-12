@@ -1,14 +1,21 @@
+// Stores the list of users
 let userList = [];
+// Stores a validated user through login 
 let validUser = {};
+// Stores the user that is currently active in the application 
 let activeUser = {};
+// Stores the active user's account
+let userAccounts;
+// Used to track login state
 let isActive = false;
 
-const URI = "http://localhost:3000/users"
+const userURI = "http://localhost:3000/users";
+const accountURI = "http://localhost:3000/accounts";
 
 const UserApi = {
     
     getUsers: () => {
-        fetch(URI)
+        fetch(userURI)
         .then((result) => {
             // console.log("RESULT");
             // console.log(result);
@@ -16,15 +23,15 @@ const UserApi = {
             return result.json();
         })
         .then((data) =>{
-            console.log("DATA: ");
-            console.log(data);
+            // console.log("DATA: ");
+            // console.log(data);
             
             userList = data;             
         })
         .catch((error)=>{console.log(error)});
     },
     getUsersById: (userId) => {
-        fetch(URI + "/" + userId)
+        fetch(userURI + "/" + userId)
         .then((result) => {
             // console.log("RESULT");
             // console.log(result);
@@ -32,8 +39,8 @@ const UserApi = {
             return result.json();
         })
         .then((data) =>{
-            console.log("DATA: ");
-            console.log(data);
+            // console.log("DATA: ");
+            // console.log(data);
             
             activeUser = data;             
         })
@@ -41,7 +48,7 @@ const UserApi = {
     },
 
     getUserByUsernamePassword: (username, password) => {
-        fetch(URI + "?username=" + username + "&password=" + password )
+        fetch(userURI + "?username=" + username + "&password=" + password )
         .then((result) => {
             // console.log("RESULT");
             // console.log(result);
@@ -49,8 +56,8 @@ const UserApi = {
             return result.json();
         })
         .then((data) =>{
-            console.log("DATA: ");
-            console.log(data);
+            // console.log("DATA: ");
+            // console.log(data);
 
             validUser = data;
                        
@@ -61,7 +68,7 @@ const UserApi = {
     createUser: (id, fn, ln, username, password) => {
         
         // Create the POST request
-        fetch(URI, {
+        fetch(userURI, {
             method: "POST",
             body: JSON.stringify({
                 id: id,
@@ -69,11 +76,6 @@ const UserApi = {
                 last_name : ln,
                 username: username,
                 password: password,
-                banks: [
-                    {
-
-                    }
-                ]
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -85,50 +87,46 @@ const UserApi = {
             
             alert("User account created!" + `\nUsername: ${data.username}`);
         });
-    },
+    }
+}
 
-    depositAmount: (userId, accountType, checkingsAmount, savingsAmount) => {
-        if(accountType == "checkings"){
-            fetch(URI + "/" + userId, {
-                method: "PUT",
-                body: JSON.stringify({
-                    banks: [
-                        {
-                            bank: "Wells Fargo",
-                            checkings : checkingsAmount,
-                            savings: savingsAmount
-                        }
-                    ]
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            });
-        }
-        else {
-            fetch(URI + "/" + userId, {
-                method: "PATCH",
-                body: JSON.stringify({
-                    banks: [
-                        {
-                            bank: "Wells Fargo",
-                            savings : amount
-                        }
-                    ]
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            });
-        }
+const AccountApi =  {
+    
+    getAccountByUserId: (userId) => {
+        fetch(accountURI + "?userId=" + userId)
+        .then((result) => {
+            // console.log("RESULT");
+            // console.log(result);
+            
+            return result.json();
+        })
+        .then((data) =>{
+            // console.log("DATA: ");
+            // console.log(data);
+            
+            userAccounts = data;       
+        })
+        .catch((error)=>{console.log(error)});
+    },
+    updateAccount: (account) => {
+        fetch(accountURI + "/" + account.id, {
+            method: "PUT",
+            body: JSON.stringify({
+                id: account.id,
+                userId: account.userId,
+                type : account.type,
+                amount: account.amount
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log(data);
+            
+            alert("Transaction successful!");
+        });
     }
 }
 
@@ -154,20 +152,22 @@ const withdrawMenu = () => {
 // If the user is logged in
 const dashboardMenu = () => {
     if(sessionStorage.getItem("isActive") == "true"){
-    
-        // Load bank information
-        // activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 
         UserApi.getUsersById(sessionStorage.getItem("activeUserId"));
+        AccountApi.getAccountByUserId(sessionStorage.getItem("activeUserId"));
         
+        // Allow time for the api to fetch data before displaying data
         setTimeout(() => {
-            console.log(activeUser);
-            document.getElementById("bankName") != undefined ? 
-            document.getElementById("bankName").innerText = activeUser.banks[0].bank : document.getElementById("bankName").innerText = "No banks";
-            document.getElementById("checkings") != undefined ? 
-            document.getElementById("checkings").innerText = "$" + activeUser.banks[0].checkings : null;
-            document.getElementById("savings") != undefined ? 
-            document.getElementById("savings").innerText = "$" + activeUser.banks[0].savings : null;
+
+            // Iterate through the list of accounts that the user has
+            let i = 1;
+            userAccounts.forEach((account) => {
+            
+                document.getElementById(`accountType${i}`).innerText = account.type;
+                document.getElementById(`accountAmount${i}`).innerText = "$" + account.amount;
+                console.log(document.getElementById(`accountType${i}`).innerText = account.type);
+                i++;
+            });
             
             // Deposit
             document.getElementById("deposit").addEventListener("click", depositMenu);
@@ -244,11 +244,20 @@ if(depositForm != undefined){
     depositForm.onsubmit = (e) => {
         e.preventDefault();
         let accountType = document.forms["depositForm"]["account"].value;
-        let amount = document.forms["depositForm"]["depositAmount"].value;
-        let checkingsAmount = document
-        console.log(accountType + amount);
+        let amount = Number(document.forms["depositForm"]["depositAmount"].value);
+        let accountId = 0;
 
-        UserApi.depositAmount(activeUser.id,accountType, amount);
+        userAccounts.forEach((account) => {
+            if(account.type == accountType){
+                account.amount += amount;
+                accountId = account.id;
+                AccountApi.updateAccount(account);
+                console.log("Found a match! Now " + account.amount + " in accountId " + accountId);
+            }
+        });
+     
+        
+
         dashboardMenu();
 
     }
@@ -264,6 +273,16 @@ if(withdrawForm != undefined){
         let accountType = document.forms["withdrawForm"]["account"].value;
         let amount = document.forms["withdrawForm"]["withdrawAmount"].value;
 
+        let accountId = 0;
+
+        userAccounts.forEach((account) => {
+            if(account.type == accountType){
+                account.amount -= amount;
+                accountId = account.id;
+                AccountApi.updateAccount(account);
+                console.log("Found a match! Now " + account.amount + " in accountId " + accountId);
+            }
+        });
 
     }
 

@@ -19,20 +19,32 @@
                     <th id="bankName" colspan="2" rowspan="2"></th>
                 </tr>
                 <tr></tr>
-                <tr>
-                    <th>Checkings</th>
-                    <th>Savings</th>
+                <tr id="accountType">
+                    <!-- Append account types here through JavaScript -->
+                    <th id="accountType1"></th>
+                    <th id="accountType2"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td id="checkings">N/A</td>
-                    <td id="savings">N/A</td>
+                <tr id="accountAmount">
+                    <!-- Append account amounts here through JavaScript -->
+                    <td id="accountAmount1"></td>
+                    <td id="accountAmount2"></td>
                 </tr>
             </tbody>
         </table>
 
         <div>
+            <form name="transaction">
+
+                <label for="transactionAction">What would you like to do?</label><br>
+                <select name="transactionAction" id="transactionAction">
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
+                    <option value="transfer">Transfer</option>
+                </select>
+                <input type="submit" value="Submit">
+            </form>
             <button type="button" id="deposit">Deposit</button>
             <button type="button" id="withdraw">Withdraw</button>
         </div>
