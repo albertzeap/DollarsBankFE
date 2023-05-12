@@ -16,7 +16,7 @@
         <table>
             <thead>
                 <tr>
-                    <th id="bankName" colspan="2" rowspan="2"></th>
+                    <th id="bankName" colspan="2" rowspan="2">Dollar Banks</th>
                 </tr>
                 <tr></tr>
                 <tr id="accountType">
@@ -36,7 +36,6 @@
 
         <div>
             <form name="transaction">
-
                 <label for="transactionAction">What would you like to do?</label><br>
                 <select name="transactionAction" id="transactionAction">
                     <option value="deposit">Deposit</option>
@@ -45,8 +44,6 @@
                 </select>
                 <input type="submit" value="Submit">
             </form>
-            <button type="button" id="deposit">Deposit</button>
-            <button type="button" id="withdraw">Withdraw</button>
         </div>
 
         <!-- Deposit -->
@@ -82,6 +79,30 @@
                     <label for="withdrawAmount">Amount: </label>
                     <input type="number" id="withdrawAmount" name="withdrawAmount" min="1"><br/><br/>
                 <input type="submit" value="Withdraw">
+            </form>
+        </div>
+
+        <!-- Transfer -->
+        <div id="transferAction" style="display: none">
+            <form name="transferForm" method="post" onsubmit="'.../api/user.js'">
+        
+                <fieldset>
+                    <legend>Transfer</legend>
+                    <p>Which account would you like to transfer from?</p>
+                    <input type="radio" id="checkingsOption" name="fromAccount" value="checkings" required>
+                    <label for="checkingsOption">Checkings</label><br>
+                    <input type="radio" id="savingsOption" name="fromAccount" value="savings">
+                    <label for="savingsOption">Savings</label><br><br>
+
+                    <p>Which account would you like to transfer to?</p>
+                    <input type="radio" id="checkingsOption" name="toAccount" value="checkings" required>
+                    <label for="checkingsOption">Checkings</label><br>
+                    <input type="radio" id="savingsOption" name="toAccount" value="savings">
+                    <label for="savingsOption">Savings</label><br><br>
+
+                    <label for="transferAmount">Amount: </label>
+                    <input type="number" id="transferAmount" name="transferAmount" min="1"><br/><br/>
+                <input type="submit" value="Transfer">
             </form>
         </div>
 

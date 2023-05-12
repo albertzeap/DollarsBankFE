@@ -6,6 +6,13 @@
       "last_name": "Paez",
       "username": "albertzeap",
       "password": "password"
+    },
+    {
+      "id": 2,
+      "first_name": "John",
+      "last_name": "Cena",
+      "username": "johnCena",
+      "password": "password"
     }
   ],
   "accounts": [
@@ -13,13 +20,50 @@
       "id": 1,
       "userId": 1,
       "type": "checkings",
-      "amount": 5000
+      "amount": 6000
     },
     {
       "id": 2,
       "userId": 1,
       "type": "savings",
-      "amount": 200200
+      "amount": 200000
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "action": "deposit",
+      "account": "checkings",
+      "amount": 200
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "action": "deposit",
+      "account": "checkings",
+      "amount": 200
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "action": "deposit",
+      "account": "checkings",
+      "amount": 200
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "action": "deposit",
+      "account": "checkings",
+      "amount": 200
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "action": "deposit",
+      "account": "checkings",
+      "amount": 200
     }
   ]
 }
