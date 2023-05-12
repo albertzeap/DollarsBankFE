@@ -316,6 +316,7 @@ const formHandler = {
             let toAccount = document.forms["transferForm"]["toAccount"].value;
             let amount = Number(document.forms["transferForm"]["transferAmount"].value);
             let accountId = 0;
+            console.log("AMOUNT: " + amount);
 
             // Check if same accounts are selected
             if(fromAccount == toAccount){

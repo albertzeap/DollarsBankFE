@@ -5,23 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 </head>
 <body>
     <nav>
         <a href="dashboard.html">Dashboard</a>
         <a href="../index.html">Logout</a>
     </nav>
-    <h1>Your Account</h1>
-    <div>
-        <table>
+    <h1 class="text-uppercase">Your Account</h1>
+
+    <div class="container-fluid">
+
+        <table class="table">
             <thead>
-                <tr>
-                    <th id="bankName" colspan="2">Dollar Banks</th>
-                </tr>
-                <tr id="accountType">
+                <tr id="accountType" >
                     <!-- Append account types here through JavaScript -->
-                    <th id="accountType1"></th>
-                    <th id="accountType2"></th>
+                    <th id="accountType1" class="text-uppercase"></th>
+                    <th id="accountType2" class="text-uppercase"></th>
                 </tr>
             </thead>
             <tbody>
@@ -33,10 +34,12 @@
             </tbody>
         </table>
         <br>
-        <table>
+    </div>
+    <div class="container-fluid">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                    <th colspan="3">Recent Transactions</th>
+                    <th colspan="3" class="text-uppercase">Recent Transactions</th>
                 </tr>
                 <tr>
                     <th>Amount</th>
@@ -45,82 +48,126 @@
                 </tr>
             </thead>
             <tbody id="transactionHistory">
-               
+                
             </tbody>
         </table>
-        <br>
-        <div>
+    </div>
+    <div class="container">
             <form name="transaction">
-                <label for="transactionAction">What would you like to do?</label><br>
-                <select name="transactionAction" id="transactionAction">
-                    <option value="deposit">Deposit</option>
-                    <option value="withdraw">Withdraw</option>
-                    <option value="transfer">Transfer</option>
-                </select>
-                <input type="submit" value="Submit">
-            </form>
-        </div>
+                <div class="form-group">
+                    <label for="transactionAction">What would you like to do?</label><br>
+                    <select name="transactionAction" id="transactionAction" class="form-control">
+                        <option value="deposit">Deposit</option>
+                        <option value="withdraw">Withdraw</option>
+                        <option value="transfer">Transfer</option>
+                    </select>
+                </div>
 
-        <!-- Deposit -->
-        <div id="depositAction" style="display: none">
-            <form name="depositForm" method="post" onsubmit="'.../api/user.js'">
-        
-                <fieldset>
-                    <legend>Deposit</legend>
-                    <p>Which account would you like to deposit to?</p>
+                <input class="btn btn-default" type="submit" value="Submit">
+            </form>
+    </div>
+
+    <!-- Deposit -->
+    <div id="depositAction" style="display: none" class="container">
+        <form name="depositForm" method="post" onsubmit="'.../api/user.js'">
+    
+            <fieldset>
+                <legend>Deposit</legend>
+                <p>Which account would you like to deposit to?</p>
+
+                <div class="form-group">
                     <input type="radio" id="checkingsOption" name="account" value="checkings" required>
-                    <label for="checkingsOption">Checkings</label><br>
+                    <label for="checkingsOption" class="radio-inline">Checkings</label>
+                </div>
+
+                <div class="form-group">
                     <input type="radio" id="savingsOption" name="account" value="savings">
-                    <label for="savingsOption">Savings</label><br><br>
+                    <label for="savingsOption" class="radio-inline">Savings</label>
+                </div>
 
-                    <label for="depositAmount">Amount: </label>
-                    <input type="number" id="depositAmount" name="depositAmount" min="0"><br/><br/>
-                <input type="submit" value="Deposit">
-            </form>
-        </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="number" class="form-control" id="depositAmount" name="depositAmount" min="0" placeholder="Amount">
+                      <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
 
-        <!-- Withdraw  -->
-        <div id="withdrawAction" style="display: none">
-            <form name="withdrawForm" method="post" onsubmit="'.../api/user.js'">
-        
-                <fieldset>
-                    <legend>Withdraw</legend>
-                    <p>Which account would you like to withdraw from?</p>
+            <input class="btn btn-default" type="submit" value="Deposit">
+        </form>
+    </div>
+
+    <!-- Withdraw  -->
+    <div id="withdrawAction" style="display: none">
+        <form name="withdrawForm" method="post" onsubmit="'.../api/user.js'">
+    
+            <fieldset>
+                <legend>Withdraw</legend>
+                <p>Which account would you like to withdraw from?</p>
+                
+                <div class="form-group">
                     <input type="radio" id="checkingsOption" name="account" value="checkings" required>
-                    <label for="checkingsOption">Checkings</label><br>
+                    <label for="checkingsOption" class="radio-inline">Checkings</label>
+                </div>
+
+                <div class="form-group">
                     <input type="radio" id="savingsOption" name="account" value="savings">
-                    <label for="savingsOption">Savings</label><br><br>
+                    <label for="savingsOption" class="radio-inline">Savings</label>
+                </div>
 
-                    <label for="withdrawAmount">Amount: </label>
-                    <input type="number" id="withdrawAmount" name="withdrawAmount" min="1"><br/><br/>
-                <input type="submit" value="Withdraw">
-            </form>
-        </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="number" class="form-control" id="withdrawAmount" name="withdrawAmount" min="1" placeholder="Amount">
+                      <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
 
-        <!-- Transfer -->
-        <div id="transferAction" style="display: none">
-            <form name="transferForm" method="post" onsubmit="'.../api/user.js'">
-        
-                <fieldset>
-                    <legend>Transfer</legend>
-                    <p>Which account would you like to transfer from?</p>
+            <input class="btn btn-default" type="submit" value="Withdraw">
+        </form>
+    </div>
+
+    <!-- Transfer -->
+    <div id="transferAction" style="display: none" class="container">
+        <form name="transferForm" method="post" onsubmit="'.../api/user.js'">
+    
+            <fieldset>
+                <legend>Transfer</legend>
+                <p>Which account would you like to transfer from?</p>
+
+                <div class="form-group">
                     <input type="radio" id="checkingsOption" name="fromAccount" value="checkings" required>
-                    <label for="checkingsOption">Checkings</label><br>
+                    <label for="checkingsOption"class="radio-inline">Checkings</label>
+                </div>
+
+                <div class="form-group">
                     <input type="radio" id="savingsOption" name="fromAccount" value="savings">
-                    <label for="savingsOption">Savings</label><br><br>
+                    <label for="savingsOption" class="radio-inline">Savings</label>
+                </div>
 
-                    <p>Which account would you like to transfer to?</p>
+                <p>Which account would you like to transfer to?</p>
+                <div class="form-group">
                     <input type="radio" id="checkingsOption" name="toAccount" value="checkings" required>
-                    <label for="checkingsOption">Checkings</label><br>
+                    <label for="checkingsOption" class="radio-inline">Checkings</label><br>
+                </div>
+
+                <div class="form-group">
                     <input type="radio" id="savingsOption" name="toAccount" value="savings">
-                    <label for="savingsOption">Savings</label><br><br>
+                    <label for="savingsOption" class="radio-inline">Savings</label><br><br>
+                </div>
 
-                    <label for="transferAmount">Amount: </label>
-                    <input type="number" id="transferAmount" name="transferAmount" min="1"><br/><br/>
-                <input type="submit" value="Transfer">
-            </form>
-        </div>
-
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="number" class="form-control" id="transferAmount" name="transferAmount" min="1" placeholder="Amount">
+                      <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+            <input class="btn btn-default" type="submit" value="Transfer">
+        </form>
     </div>
 </body>
 <script src="../api/user.js"></script>
