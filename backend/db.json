@@ -20,13 +20,13 @@
       "id": 1,
       "userId": 1,
       "type": "checkings",
-      "amount": 0
+      "amount": 500
     },
     {
       "id": 2,
       "userId": 1,
       "type": "savings",
-      "amount": 500
+      "amount": 2000
     }
   ],
   "transactions": [
@@ -105,6 +105,62 @@
       "userId": 1,
       "action": "Deposit",
       "account": "savings",
+      "amount": 500
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "action": "Withdraw",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "savings",
+      "amount": 500
+    },
+    {
+      "id": 15,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "action": "Withdraw",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 17,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "savings",
+      "amount": 500
+    },
+    {
+      "id": 18,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "savings",
+      "amount": 500
+    },
+    {
+      "id": 19,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
       "amount": 500
     }
   ]
