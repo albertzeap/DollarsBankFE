@@ -27,6 +27,18 @@
       "userId": 1,
       "type": "savings",
       "amount": 2000
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "type": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "type": "savings",
+      "amount": 0
     }
   ],
   "transactions": [
@@ -39,128 +51,16 @@
     },
     {
       "id": 2,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 400
+      "userId": 2,
+      "action": "Transfer",
+      "account": "checkings -> savings",
+      "amount": 500
     },
     {
       "id": 3,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 300
-    },
-    {
-      "id": 4,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 100
-    },
-    {
-      "id": 5,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 100
-    },
-    {
-      "id": 6,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 7,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "checkings",
-      "amount": 12395
-    },
-    {
-      "id": 8,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "savings",
-      "amount": 192000
-    },
-    {
-      "id": 9,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 10,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 11,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 500
-    },
-    {
-      "id": 12,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 13,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 14,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 500
-    },
-    {
-      "id": 15,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 16,
-      "userId": 1,
-      "action": "Withdraw",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 17,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 500
-    },
-    {
-      "id": 18,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "savings",
-      "amount": 500
-    },
-    {
-      "id": 19,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
+      "userId": 2,
+      "action": "Transfer",
+      "account": "savings -> checkings",
       "amount": 500
     }
   ]

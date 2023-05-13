@@ -6,6 +6,8 @@ let validUser = {};
 let activeUser = {};
 // Stores the active user's account
 let userAccounts;
+// Stores all accounts
+let allAccounts;
 // Stores the transactions of the user
 let userTransactions;
 // Used to track login state
@@ -90,10 +92,83 @@ const UserApi = {
             
             alert("User account created!" + `\nUsername: ${data.username}`);
         });
+    },
+    updateCredentials: (username, password) => {
+        fetch(userURI, {
+            method: "PATCH",
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            
+            alert("User credentials updated!");
+        });
     }
 }
 
 const AccountApi =  {
+
+    getAllAccounts: () => {
+        fetch(accountURI)
+        .then((result) => {
+            // console.log("RESULT");
+            // console.log(result);
+            
+            return result.json();
+        })
+        .then((data) =>{
+            // console.log("DATA: ");
+            // console.log(data);
+            
+            allAccounts = data;             
+        })
+        .catch((error)=>{console.log(error)});
+    },
+
+    createAccount: (id, userId) => {
+        // Create the POST request
+        fetch(accountURI, {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+                userId: userId,
+                type : "checkings",
+                amount: 0,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        }).then(() => {
+            fetch(accountURI, {
+                method: "POST",
+                body: JSON.stringify({
+                    id: id + 1,
+                    userId: userId,
+                    type : "savings",
+                    amount: 0,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+
+        });
+    },
     
     getAccountByUserId: (userId) => {
         fetch(accountURI + "?userId=" + userId)
@@ -126,9 +201,44 @@ const AccountApi =  {
         })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
+            console.log(data);
             
-            // alert("Transaction successful!");
+        });
+    },
+    transferAccountAmount: (fromAccount, toAccount) => {
+        fetch(accountURI + "/" + fromAccount.id, {
+            method: "PUT",
+            body: JSON.stringify({
+                id: fromAccount.id,
+                userId: fromAccount.userId,
+                type : fromAccount.type,
+                amount: fromAccount.amount
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        })
+        .then(()=> {
+            fetch(accountURI + "/" + toAccount.id, {
+                method: "PUT",
+                body: JSON.stringify({
+                    id: toAccount.id,
+                    userId: toAccount.userId,
+                    type : toAccount.type,
+                    amount: toAccount.amount
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
         });
     }
 }
@@ -180,7 +290,9 @@ const formHandler = {
         sessionStorage.clear();
 
         UserApi.getUsers();
+        AccountApi.getAllAccounts();
 
+        
         regform.onsubmit = (e) => {
             e.preventDefault();
             
@@ -190,8 +302,14 @@ const formHandler = {
             let username = document.forms["regform"]["username"].value;
             let password = document.forms["regform"]["password"].value;
             
-            let id = userList[userList.length - 1].id + 1;
+            let id = userList.length + 1;
+            let accountId = allAccounts.length + 1
+            console.log("USERID:" + id + " : ACCOUNTID: " + accountId);
+
+            
             UserApi.createUser(id, fn, ln, username, password);
+          
+            AccountApi.createAccount(accountId, id);
         }
     },
     handleLogin:() => {
@@ -211,7 +329,6 @@ const formHandler = {
                 if(Object.keys(validUser).length != 0){
                     isActive = true;
                     sessionStorage.setItem("isActive", isActive);
-                    // sessionStorage.setItem("activeUser", JSON.stringify(validUser));
                     sessionStorage.setItem("activeUserId", validUser[0].id);
                     window.location.assign("../pages/dashboard.html");
                     alert("Login Successfully");
@@ -312,50 +429,49 @@ const formHandler = {
         transferForm.onsubmit = (e) => {
             e.preventDefault();
 
-            let fromAccount = document.forms["transferForm"]["fromAccount"].value;
-            let toAccount = document.forms["transferForm"]["toAccount"].value;
+            let fromAccountType = document.forms["transferForm"]["fromAccount"].value;
+            let toAccountType = document.forms["transferForm"]["toAccount"].value;
             let amount = Number(document.forms["transferForm"]["transferAmount"].value);
-            let accountId = 0;
-            console.log("AMOUNT: " + amount);
+            let invalidRequest = false;
+            // console.log("AMOUNT: " + amount);
 
             // Check if same accounts are selected
-            if(fromAccount == toAccount){
+            if(fromAccountType == toAccountType){
                 alert("Invalid account transfer. Please select different accounts");
                 transferForm.reset();
                 return;
             }
 
+            // Variables to store the corresponding accounts
+            let fromAccount;
+            let toAccount;
             userAccounts.forEach((account) => {
-                if(account.type == fromAccount){
+                if(account.type == fromAccountType){
                     if(amount > account.amount){
                         alert("Invalid amount requested");
                         transferForm.reset();
+                        invalidRequest = true;
                         return;
                     }
                     account.amount -= amount;
-                    accountId = account.id;
-                    AccountApi.updateAccount(account);
-                    TransactionApi.createTransaction(
-                        userTransactions[userTransactions.length] + 1, 
-                        Number(activeUser.id),
-                        "Withdraw",
-                        account.type,
-                        amount
-                    )
-                }
-                else if(account.type == toAccount){
+                    fromAccount = account;
+                } else if (account.type == toAccountType){
                     account.amount += amount;
-                    accountId = account.id;
-                    AccountApi.updateAccount(account);
-                    TransactionApi.createTransaction(
-                        userTransactions[userTransactions.length] + 2, 
-                        Number(activeUser.id),
-                        "Deposit",
-                        account.type,
-                        amount
-                    )
+                    toAccount = account;
                 }
             });
+
+            // Call the APIs
+            if(!invalidRequest){
+                AccountApi.transferAccountAmount(fromAccount,toAccount);
+                TransactionApi.createTransaction(
+                    userTransactions[userTransactions.length] + 1, 
+                    Number(activeUser.id),
+                    "Transfer",
+                    `${fromAccount.type} -> ${toAccount.type}`,
+                    amount
+                )
+            }
         }
     }
 }
@@ -383,7 +499,6 @@ const dashboardMenu = () => {
             });
 
             for(let i = 0; i < userTransactions.length; i++){
-                console.log(userTransactions[userTransactions.length - 1 - i]);
                 let transactions = document.getElementById("transactionHistory");
 
                 let tr = document.createElement("tr");
