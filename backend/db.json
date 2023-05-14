@@ -13,6 +13,13 @@
       "last_name": "Cena",
       "username": "johnCena",
       "password": "password"
+    },
+    {
+      "id": 3,
+      "first_name": "Bob",
+      "last_name": "Ross",
+      "username": "bobRoss",
+      "password": "password"
     }
   ],
   "accounts": [
@@ -20,13 +27,13 @@
       "id": 1,
       "userId": 1,
       "type": "checkings",
-      "amount": 500
+      "amount": 0
     },
     {
       "id": 2,
       "userId": 1,
       "type": "savings",
-      "amount": 2000
+      "amount": 4000
     },
     {
       "id": 3,
@@ -39,6 +46,18 @@
       "userId": 2,
       "type": "savings",
       "amount": 0
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "type": "checkings",
+      "amount": 400
+    },
+    {
+      "id": 6,
+      "userId": 3,
+      "type": "savings",
+      "amount": 500
     }
   ],
   "transactions": [
@@ -62,6 +81,55 @@
       "action": "Transfer",
       "account": "savings -> checkings",
       "amount": 500
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "action": "Transfer",
+      "account": "checkings -> savings",
+      "amount": 2000
+    },
+    {
+      "id": 8,
+      "userId": 3,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 500
+    },
+    {
+      "id": 9,
+      "userId": 3,
+      "action": "Transfer",
+      "account": "checkings -> savings",
+      "amount": 500
+    },
+    {
+      "id": 10,
+      "userId": 3,
+      "action": "Deposit",
+      "account": "checkings",
+      "amount": 400
     }
   ]
 }

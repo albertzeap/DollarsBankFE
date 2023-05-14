@@ -12,11 +12,14 @@
     <nav class="navbar sticky-top bg-body-tertiary" >
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.html">Dashboard</a>   
-            <ul class="navbar-nav">
+            <ul class="nav nav-fill nav-pills nav-justified">
                 <li class="nav-item">
-                    <button class="btn btn-outline-danger">
+                    <a href="profile.html" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <!-- <button class="btn btn-outline-danger"> -->
                         <a href="../index.html" class="nav-link">Logout</a>  
-                    </button>
+                    <!-- </button> -->
                 </li>
             </ul>  
         </div>
@@ -79,11 +82,7 @@
                         <label for="transactionAction">What would you like to do?</label>
                     </div>
                     <input class="btn btn-outline-success" type="submit" value="Submit">
-                </form>
-
-
-
-                
+                </form>      
             </div>
             <div class="col"></div>
         </div>
@@ -212,5 +211,5 @@
         </div>
     </div>
 </body>
-<script src="../api/user.js"></script>
+<script src="../scripts/main.js" type="module"></script>
 </html>
