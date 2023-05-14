@@ -227,6 +227,35 @@ const formHandler = {
                 )
             }
         }
+    },
+
+    handleProfileUpdate: () => {
+
+        let currentUser;
+        UserApi.getUsersById(sessionStorage.getItem("activeUserId"))
+        .then((data)=> {
+            currentUser = data
+        })
+        .catch((error)=> {
+            console.log(error)
+        });
+
+        setTimeout(()=>{
+            document.getElementById("firstName").setAttribute("placeholder", currentUser.first_name);
+            document.getElementById("lastName").setAttribute("placeholder", currentUser.last_name);
+            document.getElementById("username").setAttribute("placeholder", currentUser.username);
+            console.log(activeUser);
+        }, 200)
+
+        profileForm.onsubmit = (e) => {
+            e.preventDefault();
+            
+            let phoneNumber = document.forms["profileForm"]
+            let username = document.forms["profileForm"]["username"].value;
+            let password = document.forms["profileForm"]["password"].value;
+            
+            UserApi.updateCredentials(activeUser.id, username,password);
+        }
     }
 }
 
@@ -242,7 +271,6 @@ const dashboardMenu = () => {
         .catch((error)=> {
             console.log(error)
         });
-        // AccountApi.getAccountByUserId(sessionStorage.getItem("activeUserId"));
 
         AccountApi.getAccountByUserId(sessionStorage.getItem("activeUserId"))
             .then((data) => {
@@ -324,8 +352,12 @@ const dashboardMenu = () => {
 var regform = document.forms["regform"];
 if(regform != undefined) formHandler.handleRegister();
 
-// Login
+// Login Form 
 var logForm = document.forms["logForm"];
 if(logForm != undefined) formHandler.handleLogin();
+
+// Profile Form 
+var profileForm = document.forms["profileForm"];
+if(profileForm != undefined) formHandler.handleProfileUpdate();
 
 dashboardMenu();

@@ -80,8 +80,8 @@ const UserApi = {
             alert("User account created!" + `\nUsername: ${data.username}`);
         });
     },
-    updateCredentials: (userid,username, password) => {
-        fetch(userURI, {
+    updateCredentials: (userId,username, password) => {
+        fetch(userURI +"/" + userId, {
             method: "PATCH",
             body: JSON.stringify({
                 username: username,
