@@ -27,7 +27,7 @@
       "id": 1,
       "userId": 1,
       "type": "checkings",
-      "amount": 0
+      "amount": 1000
     },
     {
       "id": 2,
@@ -70,66 +70,17 @@
     },
     {
       "id": 2,
-      "userId": 2,
-      "action": "Transfer",
-      "account": "checkings -> savings",
+      "userId": 1,
+      "action": "Deposit",
+      "account": "checkings",
       "amount": 500
     },
     {
       "id": 3,
-      "userId": 2,
-      "action": "Transfer",
-      "account": "savings -> checkings",
-      "amount": 500
-    },
-    {
-      "id": 4,
       "userId": 1,
       "action": "Deposit",
       "account": "checkings",
       "amount": 500
-    },
-    {
-      "id": 5,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 6,
-      "userId": 1,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 7,
-      "userId": 1,
-      "action": "Transfer",
-      "account": "checkings -> savings",
-      "amount": 2000
-    },
-    {
-      "id": 8,
-      "userId": 3,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 500
-    },
-    {
-      "id": 9,
-      "userId": 3,
-      "action": "Transfer",
-      "account": "checkings -> savings",
-      "amount": 500
-    },
-    {
-      "id": 10,
-      "userId": 3,
-      "action": "Deposit",
-      "account": "checkings",
-      "amount": 400
     }
   ]
 }

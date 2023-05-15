@@ -245,7 +245,7 @@ const formHandler = {
             document.getElementById("lastName").setAttribute("placeholder", currentUser.last_name);
             document.getElementById("username").setAttribute("placeholder", currentUser.username);
             console.log(activeUser);
-        }, 200)
+        }, 500)
 
         profileForm.onsubmit = (e) => {
             e.preventDefault();
@@ -296,7 +296,7 @@ const dashboardMenu = () => {
             userAccounts.forEach((account) => {
             
                 document.getElementById(`accountType${i}`).innerText = account.type;
-                document.getElementById(`accountAmount${i}`).innerText = "$" + account.amount;
+                document.getElementById(`accountAmount${i}`).innerText = "$" + account.amount + ".00";
                 console.log(document.getElementById(`accountType${i}`).innerText = account.type);
                 i++;
             });
