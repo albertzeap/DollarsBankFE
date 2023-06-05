@@ -19,15 +19,15 @@ A simple JavaScript, HTML, and CSS website that acts a banking application where
 
 ## Installation
 
-Step-by-step instructions on how to set up the project locally. Include any prerequisites, dependencies, or configuration steps necessary to get the project running.
-$ git clone https://github.com/albertzeap/DollarsBankFE.git
-$ cd DollarsBanksFE
-$ npm install
-$ npm start
+Step-by-step instructions on how to set up the project locally. Include any prerequisites, dependencies, or configuration steps necessary to get the project running.  
+`$ git clone https://github.com/albertzeap/DollarsBankFE.git`   
+`$ cd DollarsBanksFE`  
+`$ npm install`  
+`$ npm start`  
 
-In a separate terminal follow these steps to start the backend server which runs off JSON-server
-$ cd DollarsBanksFE/backend
-$ json-server --watch db.json
+In a separate terminal follow these steps to start the backend server which runs off JSON-server  
+`$ cd DollarsBanksFE/backend`  
+`$ json-server --watch db.json`
 
 ## Screenshots
 
